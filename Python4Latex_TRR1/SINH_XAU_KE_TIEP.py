@@ -2,6 +2,7 @@ from thuvien import *
 import random
 NumberQuestions = 2
 BankQuestion = []
+#Hàm sinh xâu nhị phân kế tiếp
 def NextBinaryString(binary_string, is_exist):
     pos = int(len(binary_string)) - 1
     temp = list(binary_string)
@@ -16,9 +17,10 @@ def NextBinaryString(binary_string, is_exist):
     return new_string, is_exist
 
 for i in range(NumberQuestions):
-    length = random.randint(8, 10)
-    k = random.randint(4, 6)
-    binary_string = "0" * length
+    length = random.randint(7, 9) #độ dài xâu nhị phân
+    k = random.randint(3, 4) #số xâu cần sinh 
+    binary_string = "0" * length #xâu nhị phân bắt đầu
+    #tạo list để lưu tất cả các xâu có độ dài length
     list_bin_str = []
     is_exist = True
     while is_exist == True:
@@ -26,22 +28,45 @@ for i in range(NumberQuestions):
         binary_string, is_exist = NextBinaryString(binary_string, is_exist)
     start_index = 1
     end_index = len(list_bin_str) - k - 1
-    arrangement = list_bin_str[start_index : end_index] 
+    arrangement = list_bin_str[start_index : end_index]
+    #chọn ngẫu nhiên xâu cần sinh kế tiếp trong list từ start_index đến end_index để đảm bảo có đủ cấu hình
     current = random.choice(arrangement)
     index = list_bin_str.index(current)
     true_ans = list_bin_str[index + 1 : index + k + 1]
+    #sinh đề bài
     ProblemStatement = "Cho xâu nhị phân $X = \\{ " + ', '.join(map(str, current)) + " \\}$" + \
                    f". Giả sử áp dụng phương pháp sinh xâu nhị phân theo thứ tự từ điển, hãy liệt kê " + \
                    str(k) +" xâu nhị phân liền kề tiếp theo của $X?$"
-    PA1 = "\\True" + '$' + ';'.join(''.join(map(str, perm)) for perm in true_ans) + '$'
+    #sinh lời giải               
+    loigiai = (  "\\textbf{Lời giải:} \n"
+                "\\begin{itemize}\n"
+                "\\item Xâu nhị phân bắt đầu được cho là: $" + ", ".join(map(str, current)) + "$.\n"
+                "\\item Các xâu nhị phân tiếp theo được sinh ra dựa trên phương pháp sinh tổ hợp chập $" + str(k) + "$ theo thứ tự từ điển lần lượt là:\n"
+                "\\begin{itemize}\n"  )
+    for perm in true_ans:
+        loigiai += "\\item $" + ", ".join(map(str, perm)) + "$\n"
+
+    loigiai += (
+        "\\end{itemize}\n"
+        "\\end{itemize}\n"
+        "\n"
+    )
+    #khởi tạo đáp án
+    PA1 = "\\True" + '$'
+    for perm in true_ans:
+        PA1 += '(' + ','.join(map(str, perm)) + ')'
+    PA1 += '$'
     PA = [""] * 3
     for j in range(3):
         temp_list = true_ans.copy()
         random.shuffle(temp_list)
-        PA[j] = '$' + ';'.join(''.join(map(str, perm)) for perm in temp_list) + '$'  
+        PA[j] = '$'
+        for perm in temp_list:
+            PA[j] += '(' + ', '.join(map(str, perm)) + ')'
+        PA[j] += '$'
     PA.append(PA1)
     random.shuffle(PA)
-    loigiai = "\n"
+    #tạo câu hỏi hoàn chỉnh
     question = "\\begin{ex}\n" + \
     ProblemStatement + "\n" + \
     "\\choice\n" + \
@@ -53,6 +78,7 @@ for i in range(NumberQuestions):
     loigiai + "\n" + \
     "}\n" + \
     "\\end{ex}\n"
+    #thêm câu hỏi tạo được vào ngân hàng câu hỏi
     BankQuestion.append(question)
     
 GenerateQuestions = ""
