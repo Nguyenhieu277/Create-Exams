@@ -226,6 +226,7 @@ for number in range(NumberQuestions):
     BankQuestions.append(Question1)
     BankQuestions.append(Question2)
 
+
 GenerateQuestions = ""
 for question in BankQuestions:
     GenerateQuestions += question
