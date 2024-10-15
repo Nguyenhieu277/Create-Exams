@@ -140,7 +140,7 @@ for number in range(NumberQuestions):
         numberOfNextElement = random.randint(3, 6)
         
         ProblemStatement = "Cho tập $A = \\{1, 2, 3, 4, 5, 6, 7, 8, 9\\}$. Giả sử áp dụng phương pháp sinh tổ hợp " + \
-                           "theo thứ tự từ điển, hãy liệt kê $ " + str(numberOfNextElement) + " $ tổ hợp chập $ " + str(numVars) + " $ liền trước của tổ hợp $(" + \
+                           "hãy liệt kê $ " + str(numberOfNextElement) + " $ tổ hợp chập $ " + str(numVars) + " $ liền trước của tổ hợp $(" + \
                            ", ".join(map(str, combination)) + ").$"
         
         # Sinh tổ hợp tiếp theo
